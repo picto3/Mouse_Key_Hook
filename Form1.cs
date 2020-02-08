@@ -20,8 +20,8 @@ namespace AutoMouse2
       public static extern short GetAsyncKeyState(System.Windows.Forms.Keys vKey);
 
     /* 使うキーの個数用意する */
-    /* click - F1 - F2 - F3 - ... - F12 - Q */
-    private bool[] flgClick = {false, false, false, false, false, false, false, false, false, false, false, false, false, false};
+    /* click - Q */
+    private bool[] flgClick = {false, false};
     private int wait_millisec = 0;
     /* 記録される操作の数 */
     private int record_cnt = 0;
@@ -81,21 +81,21 @@ namespace AutoMouse2
     {
       // 記録した操作実行時の処理
       // Qキーが押されたら終了
-      if (run_flag && flgClick[13] == false)
+      if (run_flag && flgClick[1] == false)
       {
 
         if (GetAsyncKeyState(Keys.Q) != 0)
         {
-          if (flgClick[13] == false)
+          if (flgClick[1] == false)
           {
             run_flag = false;
-            flgClick[13] = true;
+            flgClick[1] = true;
             run_count = 0;
           }
         }
         else
         {
-          flgClick[13] = false;
+          flgClick[1] = false;
         }
 
         // 記録した操作がループするように
@@ -112,65 +112,10 @@ namespace AutoMouse2
             break;
 
           case 1:
-            // F1キーの押し下げをシミュレートする。
-            keybd_event((byte)Keys.F1, 0, 0, (UIntPtr)0);
-            // F1キーの解放をシミュレートする。
-            keybd_event((byte)Keys.F1, 0, 2, (UIntPtr)0);
-            break;
-
-          case 2:
-            keybd_event((byte)Keys.F2, 0, 0, (UIntPtr)0);
-            keybd_event((byte)Keys.F2, 0, 2, (UIntPtr)0);
-            break;
-
-          case 3:
-            keybd_event((byte)Keys.F3, 0, 0, (UIntPtr)0);
-            keybd_event((byte)Keys.F3, 0, 2, (UIntPtr)0);
-            break;
-
-          case 4:
-            keybd_event((byte)Keys.F4, 0, 0, (UIntPtr)0);
-            keybd_event((byte)Keys.F4, 0, 2, (UIntPtr)0);
-            break;
-
-          case 5:
-            keybd_event((byte)Keys.F5, 0, 0, (UIntPtr)0);
-            keybd_event((byte)Keys.F5, 0, 2, (UIntPtr)0);
-            break;
-
-          case 6:
-            keybd_event((byte)Keys.F6, 0, 0, (UIntPtr)0);
-            keybd_event((byte)Keys.F6, 0, 2, (UIntPtr)0);
-            break;
-
-          case 7:
-            keybd_event((byte)Keys.F7, 0, 0, (UIntPtr)0);
-            keybd_event((byte)Keys.F7, 0, 2, (UIntPtr)0);
-            break;
-
-          case 8:
-            keybd_event((byte)Keys.F8, 0, 0, (UIntPtr)0);
-            keybd_event((byte)Keys.F8, 0, 2, (UIntPtr)0);
-            break;
-
-          case 9:
-            keybd_event((byte)Keys.F9, 0, 0, (UIntPtr)0);
-            keybd_event((byte)Keys.F9, 0, 2, (UIntPtr)0);
-            break;
-
-          case 10:
-            keybd_event((byte)Keys.F10, 0, 0, (UIntPtr)0);
-            keybd_event((byte)Keys.F10, 0, 2, (UIntPtr)0);
-            break;
-
-          case 11:
-            keybd_event((byte)Keys.F11, 0, 0, (UIntPtr)0);
-            keybd_event((byte)Keys.F11, 0, 2, (UIntPtr)0);
-            break;
-
-          case 12:
-            keybd_event((byte)Keys.F12, 0, 0, (UIntPtr)0);
-            keybd_event((byte)Keys.F12, 0, 2, (UIntPtr)0);
+            // Qキーの押下をシミュレート
+            // keybd_event((byte)Keys.Q, 0, 0, (UIntPtr)0);
+            // Qキーの解放をシミュレート
+            // keybd_event((byte)Keys.Q, 0, 2, (UIntPtr)0);
             break;
         }
         
@@ -187,17 +132,16 @@ namespace AutoMouse2
           // Qキーが押されたら終了
           if (GetAsyncKeyState(Keys.Q) != 0)
           {
-            if (flgClick[13] == false)
+            if (flgClick[1] == false)
             {
               run_flag = false;
-              //label1.Text = "F1キーが押されました";
-              flgClick[13] = true;
+              flgClick[1] = true;
               run_count = 0;
             }
           }
           else
           {
-            flgClick[13] = false;
+            flgClick[1] = false;
           }
 
         }
@@ -206,17 +150,16 @@ namespace AutoMouse2
 
       if (GetAsyncKeyState(Keys.Q) != 0)
       {
-        if (flgClick[13] == false)
+        if (flgClick[1] == false)
         {
           run_flag = false;
-          //label1.Text = "F1キーが押されました";
-          flgClick[13] = true;
+          flgClick[1] = true;
           run_count = 0;
         }
       }
       else
       {
-        flgClick[13] = false;
+        flgClick[1] = false;
       }
 
       // 操作記録時の処理
@@ -243,248 +186,6 @@ namespace AutoMouse2
         {
           flgClick[0] = false;
         }
-
-        // F1キーを記録
-        if (GetAsyncKeyState(Keys.F1) != 0)
-        {
-          if (flgClick[1] == false)
-          {
-            TimeSpan ts = sw.Elapsed;
-            wait_millisec = ts.Minutes * 60 * 1000 + ts.Seconds * 1000 + ts.Milliseconds;
-            cmd_Record.Add(1);
-            cmd_Record_x.Add(-1);
-            cmd_Record_y.Add(-1);
-            wait_time_Record.Add(wait_millisec);
-            record_cnt++;
-            sw.Restart();
-            flgClick[1] = true;
-          }
-        }
-        else
-        {
-          flgClick[1] = false;
-        }
-
-        if (GetAsyncKeyState(Keys.F2) != 0)
-        {
-          if (flgClick[2] == false)
-          {
-            TimeSpan ts = sw.Elapsed;
-            wait_millisec = ts.Minutes * 60 * 1000 + ts.Seconds * 1000 + ts.Milliseconds;
-            cmd_Record.Add(2);
-            cmd_Record_x.Add(-1);
-            cmd_Record_y.Add(-1);
-            wait_time_Record.Add(wait_millisec);
-            record_cnt++;
-            sw.Restart();
-            flgClick[2] = true;
-          }
-        }
-        else
-        {
-          flgClick[2] = false;
-        }
-
-        if (GetAsyncKeyState(Keys.F3) != 0)
-        {
-          if (flgClick[3] == false)
-          {
-            TimeSpan ts = sw.Elapsed;
-            wait_millisec = ts.Minutes * 60 * 1000 + ts.Seconds * 1000 + ts.Milliseconds;
-            cmd_Record.Add(3);
-            cmd_Record_x.Add(-1);
-            cmd_Record_y.Add(-1);
-            wait_time_Record.Add(wait_millisec);
-            record_cnt++;
-            sw.Restart();
-            flgClick[3] = true;
-          }
-        }
-        else
-        {
-          flgClick[3] = false;
-        }
-
-        if (GetAsyncKeyState(Keys.F4) != 0)
-        {
-          if (flgClick[4] == false)
-          {
-            TimeSpan ts = sw.Elapsed;
-            wait_millisec = ts.Minutes * 60 * 1000 + ts.Seconds * 1000 + ts.Milliseconds;
-            cmd_Record.Add(4);
-            cmd_Record_x.Add(-1);
-            cmd_Record_y.Add(-1);
-            wait_time_Record.Add(wait_millisec);
-            record_cnt++;
-            sw.Restart();
-            flgClick[4] = true;
-          }
-        }
-        else
-        {
-          flgClick[4] = false;
-        }
-
-        if (GetAsyncKeyState(Keys.F5) != 0)
-        {
-          if (flgClick[5] == false)
-          {
-            TimeSpan ts = sw.Elapsed;
-            wait_millisec = ts.Minutes * 60 * 1000 + ts.Seconds * 1000 + ts.Milliseconds;
-            cmd_Record.Add(5);
-            cmd_Record_x.Add(-1);
-            cmd_Record_y.Add(-1);
-            wait_time_Record.Add(wait_millisec);
-            record_cnt++;
-            sw.Restart();
-            flgClick[5] = true;
-          }
-        }
-        else
-        {
-          flgClick[5] = false;
-        }
-
-        if (GetAsyncKeyState(Keys.F6) != 0)
-        {
-          if (flgClick[6] == false)
-          {
-            TimeSpan ts = sw.Elapsed;
-            wait_millisec = ts.Minutes * 60 * 1000 + ts.Seconds * 1000 + ts.Milliseconds;
-            cmd_Record.Add(6);
-            cmd_Record_x.Add(-1);
-            cmd_Record_y.Add(-1);
-            wait_time_Record.Add(wait_millisec);
-            record_cnt++;
-            sw.Restart();
-            flgClick[6] = true;
-          }
-        }
-        else
-        {
-          flgClick[6] = false;
-        }
-
-        if (GetAsyncKeyState(Keys.F7) != 0)
-        {
-          if (flgClick[7] == false)
-          {
-            TimeSpan ts = sw.Elapsed;
-            wait_millisec = ts.Minutes * 60 * 1000 + ts.Seconds * 1000 + ts.Milliseconds;
-            cmd_Record.Add(7);
-            cmd_Record_x.Add(-1);
-            cmd_Record_y.Add(-1);
-            wait_time_Record.Add(wait_millisec);
-            record_cnt++;
-            sw.Restart();
-            flgClick[7] = true;
-          }
-        }
-        else
-        {
-          flgClick[7] = false;
-        }
-
-        if (GetAsyncKeyState(Keys.F8) != 0)
-        {
-          if (flgClick[8] == false)
-          {
-            TimeSpan ts = sw.Elapsed;
-            wait_millisec = ts.Minutes * 60 * 1000 + ts.Seconds * 1000 + ts.Milliseconds;
-            cmd_Record.Add(8);
-            cmd_Record_x.Add(-1);
-            cmd_Record_y.Add(-1);
-            wait_time_Record.Add(wait_millisec);
-            record_cnt++;
-            sw.Restart();
-            flgClick[8] = true;
-          }
-        }
-        else
-        {
-          flgClick[8] = false;
-        }
-
-        if (GetAsyncKeyState(Keys.F9) != 0)
-        {
-          if (flgClick[9] == false)
-          {
-            TimeSpan ts = sw.Elapsed;
-            wait_millisec = ts.Minutes * 60 * 1000 + ts.Seconds * 1000 + ts.Milliseconds;
-            cmd_Record.Add(9);
-            cmd_Record_x.Add(-1);
-            cmd_Record_y.Add(-1);
-            wait_time_Record.Add(wait_millisec);
-            record_cnt++;
-            sw.Restart();
-            flgClick[9] = true;
-          }
-        }
-        else
-        {
-          flgClick[9] = false;
-        }
-
-        if (GetAsyncKeyState(Keys.F10) != 0)
-        {
-          if (flgClick[10] == false)
-          {
-            TimeSpan ts = sw.Elapsed;
-            wait_millisec = ts.Minutes * 60 * 1000 + ts.Seconds * 1000 + ts.Milliseconds;
-            cmd_Record.Add(10);
-            cmd_Record_x.Add(-1);
-            cmd_Record_y.Add(-1);
-            wait_time_Record.Add(wait_millisec);
-            record_cnt++;
-            sw.Restart();
-            flgClick[10] = true;
-          }
-        }
-        else
-        {
-          flgClick[10] = false;
-        }
-
-        if (GetAsyncKeyState(Keys.F11) != 0)
-        {
-          if (flgClick[11] == false)
-          {
-            TimeSpan ts = sw.Elapsed;
-            wait_millisec = ts.Minutes * 60 * 1000 + ts.Seconds * 1000 + ts.Milliseconds;
-            cmd_Record.Add(11);
-            cmd_Record_x.Add(-1);
-            cmd_Record_y.Add(-1);
-            wait_time_Record.Add(wait_millisec);
-            record_cnt++;
-            sw.Restart();
-            flgClick[11] = true;
-          }
-        }
-        else
-        {
-          flgClick[11] = false;
-        }
-
-        if (GetAsyncKeyState(Keys.F12) != 0)
-        {
-          if (flgClick[12] == false)
-          {
-            TimeSpan ts = sw.Elapsed;
-            wait_millisec = ts.Minutes * 60 * 1000 + ts.Seconds * 1000 + ts.Milliseconds;
-            cmd_Record.Add(12);
-            cmd_Record_x.Add(-1);
-            cmd_Record_y.Add(-1);
-            wait_time_Record.Add(wait_millisec);
-            record_cnt++;
-            sw.Restart();
-            flgClick[12] = true;
-          }
-        }
-        else
-        {
-          flgClick[12] = false;
-        }
-
       }
     }
 
